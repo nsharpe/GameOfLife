@@ -53,10 +53,14 @@ public class StepRule {
   }
 
   public Set<Position> stayAlive(Set<Position> positions,Map<Position,Long> neighbors){
-    return positions.stream().filter(x->stayAliveCount.contains( neighbors.get(x))).collect(toSet());
+    return positions.stream()
+            .filter(x->stayAliveCount.contains( neighbors.get(x)))
+            .collect(toSet());
   }
 
   public Set<Position> bornCells(Map<Position,Long> neighbors){
-    return neighbors.entrySet().stream().filter(x->birthCount.contains(x.getValue())).map(x->x.getKey()).collect(toSet());
+    return neighbors.entrySet().stream()
+            .filter(x->birthCount.contains(x.getValue()))
+            .map(x->x.getKey()).collect(toSet());
   }
 }
