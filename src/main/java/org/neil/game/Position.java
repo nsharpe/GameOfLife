@@ -15,6 +15,10 @@ public class Position {
     this.position = Collections.unmodifiableList(position);
   }
 
+  public Integer numOfAxis(){
+    return position.size();
+  }
+
   public static Position of(List<Integer> pos){
     return new Position(new ArrayList<>(pos));
   }

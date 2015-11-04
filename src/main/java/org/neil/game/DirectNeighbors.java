@@ -1,37 +1,37 @@
 package org.neil.game;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by neilsharpe on 11/3/15.
  */
-public class DirectNeighbors implements Neighbors {
+public class DirectNeighbors {
 
-  @Override
-  public Set<Position> of(Position position) {
-    return getNeighbors(new HashSet<>(),getStartingPosition(position),0,position).stream().filter(x->!x.equals(position)).collect(Collectors.toSet());
+  public Stream<Position> of(Position position) {
+    return getNeighbors(new HashSet<>(),new ArrayList<>(),position).stream().filter(x->!x.equals(position));
   }
 
-  Set<Position> getNeighbors(Set<Position> neighbors,List<Integer> current,Integer axis,Position original){
-    if(axis.equals(original.position.size())){
+  private Set<Position> getNeighbors(Set<Position> neighbors,List<Integer> current,Position original){
+    if(current.size()==original.numOfAxis()){
       neighbors.add(Position.of(current));
     }else{
-      getRange(original,axis).stream().forEach(x->{
-        current.set(axis,x);
-        getNeighbors(neighbors,current,axis + 1,original);
-      });
+      getRange(original,current.size()).stream().forEach(x-> getNeighbors(neighbors,addAxis(current,x),original));
     }
     return neighbors;
   }
 
 
-  List<Integer> getRange(Position p, Integer i){
+  private List<Integer> getRange(Position p, Integer i){
     Integer value = p.position.get(i);
     return Arrays.asList(value - 1, value, value + 1 );
+  }
+
+  List<Integer> addAxis(List<Integer> l, Integer toAdd){
+    List<Integer> toReturn = new ArrayList<>(l);
+    toReturn.add(toAdd);
+    return toReturn;
   }
 
   List<Integer> getStartingPosition(Position p){

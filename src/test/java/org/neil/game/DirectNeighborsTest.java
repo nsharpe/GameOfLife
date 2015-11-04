@@ -3,6 +3,7 @@ package org.neil.game;
 import org.junit.Test;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -15,7 +16,7 @@ public class DirectNeighborsTest {
   @Test
   public void testHasAllNeighbors(){
     Position start = Position.of(0,0);
-    Set<Position> neighbors = new DirectNeighbors().of(start);
+    Set<Position> neighbors = new DirectNeighbors().of(start).collect(Collectors.toSet());
 
     assertEquals(neighbors.size(),8);
 
