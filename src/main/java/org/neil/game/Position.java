@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * A discrete point of reference of a map of any number of dimensions.
+ *
  * Created by neilsharpe on 11/3/15.
  */
 public class Position {
@@ -13,6 +15,10 @@ public class Position {
 
   private Position(List<Integer> position) {
     this.position = Collections.unmodifiableList(position);
+  }
+
+  public Integer axis(Integer i){
+    return position.get(i);
   }
 
   public Integer numOfAxis(){

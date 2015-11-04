@@ -21,7 +21,7 @@ public class StepRule {
 
   public final Set<Long> stayAliveCount;
   public final Set<Long> birthCount;
-  DirectNeighbors neighbors = new DirectNeighbors();
+  public Neighbors neighbors = new DirectNeighbors();
 
   public StepRule(Long[] stayAliveCount, Long[] birthCount) {
     this(set(stayAliveCount),set(birthCount));
@@ -37,6 +37,7 @@ public class StepRule {
     }
     this.stayAliveCount = stayAliveCount;
     this.birthCount = birthCount;
+    stayAliveCount.addAll(birthCount);
   }
 
   public Set<Position> next(Set<Position> positions){
@@ -52,12 +53,24 @@ public class StepRule {
             .collect(Collectors.groupingBy(identity(),counting()));
   }
 
+  /**
+   * Returns all cells that remain alive after a given iteration.
+   *
+   * @param positions
+   * @param neighbors
+   * @return
+   */
   public Set<Position> stayAlive(Set<Position> positions,Map<Position,Long> neighbors){
     return positions.stream()
             .filter(x->stayAliveCount.contains( neighbors.get(x)))
             .collect(toSet());
   }
 
+  /**
+   * Returns all cells that would be born after a given iteration
+   * @param neighbors
+   * @return
+   */
   public Set<Position> bornCells(Map<Position,Long> neighbors){
     return neighbors.entrySet().stream()
             .filter(x->birthCount.contains(x.getValue()))
