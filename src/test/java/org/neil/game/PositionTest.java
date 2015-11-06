@@ -2,6 +2,7 @@ package org.neil.game;
 
 import org.junit.Test;
 
+import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -17,5 +18,7 @@ public class PositionTest {
   @Test
   public void testNotEquals(){
     assertFalse(Position.of(0,1).equals(Position.of(0,0)));
+    assertFalse(Position.of(0,1).equals(Position.of(1,0)));
   }
+
 }

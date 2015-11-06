@@ -7,7 +7,7 @@ import ij.plugin.PlugIn;
 /**
  * Created by neilsharpe on 11/3/15.
  */
-public class GameOfLifeImagejPlugin implements PlugIn {
+public class Game_Of_Life_Imagej_Plugin implements PlugIn {
 
   @Override
   public void run(String arg) {

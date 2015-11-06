@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.counting;
-import static java.util.stream.Collectors.toSet;
 
 /**
  * Created by neilsharpe on 11/3/15.
@@ -24,10 +23,10 @@ public class StepRule {
   public Neighbors neighbors = new DirectNeighbors();
 
   public StepRule(Long[] stayAliveCount, Long[] birthCount) {
-    this(set(stayAliveCount),set(birthCount));
+    this(toSet(stayAliveCount), toSet(birthCount));
   }
 
-  private static Set<Long> set(Long[] l){
+  private static Set<Long> toSet(Long[] l){
     return new HashSet<>(Arrays.asList(l));
   }
 
@@ -63,7 +62,7 @@ public class StepRule {
   public Set<Position> stayAlive(Set<Position> positions,Map<Position,Long> neighbors){
     return positions.stream()
             .filter(x->stayAliveCount.contains( neighbors.get(x)))
-            .collect(toSet());
+            .collect(Collectors.toSet());
   }
 
   /**
@@ -74,6 +73,6 @@ public class StepRule {
   public Set<Position> bornCells(Map<Position,Long> neighbors){
     return neighbors.entrySet().stream()
             .filter(x->birthCount.contains(x.getValue()))
-            .map(x->x.getKey()).collect(toSet());
+            .map(x->x.getKey()).collect(Collectors.toSet());
   }
 }

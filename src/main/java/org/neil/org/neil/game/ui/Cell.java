@@ -2,7 +2,6 @@ package org.neil.org.neil.game.ui;
 
 import org.neil.game.Position;
 
-import java.util.List;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
