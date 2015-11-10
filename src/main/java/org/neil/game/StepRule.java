@@ -40,15 +40,15 @@ public class StepRule {
     stayAliveCount.addAll(birthCount);
   }
 
-  public Stream<Position> next(Stream<Position> positions){
-    return next(positions.collect(Collectors.toSet()));
+  public Stream<Position> next(Stream<Position> cellPositions){
+    return next(cellPositions.collect(Collectors.toSet()));
   }
 
-  public Stream<Position> next(Set<Position> positions){
-    Map<Position,Long> neighborCount = neighborCount(positions);
+  public Stream<Position> next(Set<Position> cellPositions){
+    Map<Position,Long> neighborCount = neighborCount(cellPositions);
 
     return neighborCount.entrySet().stream()
-            .filter( x -> isAlive(x.getValue(),positions.contains(x.getKey())))
+            .filter( x -> isAlive(x.getValue(),cellPositions.contains(x.getKey())))
             .map( x -> x.getKey());
   }
 

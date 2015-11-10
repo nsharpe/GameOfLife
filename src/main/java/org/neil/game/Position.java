@@ -10,6 +10,9 @@ import java.util.stream.Stream;
 
 /**
  * A discrete point of reference of a map of any number of dimensions.
+ * <p>
+ *   It is intended to be the location of a currently living cell.
+ * </p>
  *
  * Created by neilsharpe on 11/3/15.
  */
