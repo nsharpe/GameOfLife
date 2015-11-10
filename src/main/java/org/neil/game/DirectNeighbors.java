@@ -28,10 +28,9 @@ public class DirectNeighbors implements Neighbors {
             .flatMap(x -> getNeighbors(addAxis(current, x), original));
   }
 
-
   private Stream<Integer> getRange(Position p, Integer i) {
     Integer value = p.axis(i);
-    return Arrays.asList(value - 1, value, value + 1).stream();
+    return Stream.of(value - 1, value, value + 1);
   }
 
   List<Integer> addAxis(List<Integer> l, Integer toAdd) {
