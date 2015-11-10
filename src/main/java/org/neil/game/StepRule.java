@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.counting;
@@ -39,11 +40,16 @@ public class StepRule {
     stayAliveCount.addAll(birthCount);
   }
 
-  public Set<Position> next(Set<Position> positions){
+  public Stream<Position> next(Stream<Position> positions){
+    return next(positions.collect(Collectors.toSet()));
+  }
+
+  public Stream<Position> next(Set<Position> positions){
     Map<Position,Long> neighborCount = neighborCount(positions);
-    Set<Position> toReturn = stayAlive(positions,neighborCount);
-    toReturn.addAll(bornCells(neighborCount));
-    return toReturn;
+
+    return neighborCount.entrySet().stream()
+            .filter( x -> isAlive(x.getValue(),positions.contains(x.getKey())))
+            .map( x -> x.getKey());
   }
 
   public Map<Position,Long> neighborCount(Set<Position> positions){
@@ -52,27 +58,8 @@ public class StepRule {
             .collect(Collectors.groupingBy(identity(),counting()));
   }
 
-  /**
-   * Returns all cells that remain alive after a given iteration.
-   *
-   * @param positions
-   * @param neighbors
-   * @return
-   */
-  public Set<Position> stayAlive(Set<Position> positions,Map<Position,Long> neighbors){
-    return positions.stream()
-            .filter(x->stayAliveCount.contains( neighbors.get(x)))
-            .collect(Collectors.toSet());
-  }
-
-  /**
-   * Returns all cells that would be born after a given iteration
-   * @param neighbors
-   * @return
-   */
-  public Set<Position> bornCells(Map<Position,Long> neighbors){
-    return neighbors.entrySet().stream()
-            .filter(x->birthCount.contains(x.getValue()))
-            .map(x->x.getKey()).collect(Collectors.toSet());
+  public boolean isAlive(Long neighborCount, Boolean wasAlive){
+    return  birthCount.contains(neighborCount) ||
+            (wasAlive && stayAliveCount.contains(neighborCount));
   }
 }
