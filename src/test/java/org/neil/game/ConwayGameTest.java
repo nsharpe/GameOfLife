@@ -17,10 +17,11 @@ import static junit.framework.TestCase.assertEquals;
 public class ConwayGameTest {
   @Test
   public void testBigGame(){
-    Set<Position> toTest = IntStream.range(0,1_000_000)
+    Set<Position> toTest = IntStream.range(0,100_000)
             .filter( x -> x %4 != 0)
             .mapToObj(x -> Position.of(0,x))
             .collect(Collectors.toSet());
+
     System.out.println("Starting test of position size = "+toTest.size());
     DateTime start = DateTime.now();
 
