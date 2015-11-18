@@ -1,10 +1,8 @@
 package org.neil;
 
-
+import org.neil.org.neil.game.ui.CellImage;
+import org.neil.org.neil.game.ui.OpenCVisualiser;
 import org.opencv.core.Core;
-import org.opencv.core.CvType;
-import org.opencv.core.Mat;
-import org.opencv.core.Scalar;
 
 /**
  * Created by neilsharpe on 11/10/15.
@@ -13,12 +11,11 @@ public class HelloOpenCV {
   static{ System.loadLibrary(Core.NATIVE_LIBRARY_NAME); }
 
   public static void main(String[] args) {
-    Mat m = new Mat(5, 10, CvType.CV_8UC1, new Scalar(0));
-    System.out.println("OpenCV Mat: " + m);
-    Mat mr1 = m.row(1);
-    mr1.setTo(new Scalar(1));
-    Mat mc5 = m.col(5);
-    mc5.setTo(new Scalar(5));
-    System.out.println("OpenCV Mat data:\n" + m.dump());
+
+    CellImage ci = new CellImage(2,3,100);
+
+    OpenCVisualiser openCVisualiser = new OpenCVisualiser(ci.imageWidth(),ci.imageHeight());
+
+    openCVisualiser.displayImage(ci.image());
   }
 }

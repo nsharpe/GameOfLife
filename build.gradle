@@ -15,7 +15,6 @@ repositories {
 
 dependencies {
     compile files('/Users/neilsharpe/OpenCv/opencv-3.0.0/build/bin/opencv-300.jar')
-    compile 'net.imagej:ij:1.49k'
     testCompile 'junit:junit:4.11'
     testCompile 'joda-time:joda-time:2.3'
 }
