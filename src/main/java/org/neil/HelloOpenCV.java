@@ -1,5 +1,6 @@
 package org.neil;
 
+import org.neil.game.RandomGridSetup;
 import org.neil.org.neil.game.ui.CellImage;
 import org.neil.org.neil.game.ui.OpenCVisualiser;
 import org.opencv.core.Core;
@@ -16,6 +17,8 @@ public class HelloOpenCV {
 
     OpenCVisualiser openCVisualiser =
             new OpenCVisualiser(ci.imageWidth(),ci.imageHeight());
+
+    ci.drawImage(RandomGridSetup.makeMap(0.5,150,150));
 
     openCVisualiser.displayImage(ci.image());
   }

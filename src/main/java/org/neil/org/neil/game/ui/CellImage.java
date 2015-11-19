@@ -10,6 +10,7 @@ import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Set;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -22,7 +23,6 @@ public class CellImage {
   private Integer columns;
   private Integer rows;
 
-  private Set<Cell> cells;
   private Mat image;
 
   final Scalar BLACK = new Scalar(0, 0, 0);
@@ -46,6 +46,11 @@ public class CellImage {
                       .forEach(y->drawSquare(x,y,WHITE));
             });
     drawGrid();
+  }
+
+  public void drawImage(Stream<Position> positions){
+    resetImage();
+    positions.forEach(x->draw(x));
   }
 
   public Double imageWidth() {
@@ -83,20 +88,12 @@ public class CellImage {
             });
   }
 
-  public void drawLivingCell(Cell c) {
-
+  public void draw(Position p){
+    drawSquare(p.axis(0),p.axis(1),BLACK);
   }
 
-  public void drawLivingCells(Stream<Cell> cells) {
-    cells.filter(x -> x.isAlive).forEach(x -> drawLivingCell(x));
-  }
-
-  public Stream<Position> getAlivePositions() {
-    return cells.stream().filter(Cell::isAlive).map(Cell::toPosition);
-  }
-
-  public void matchPositions(Set<Position> positions) {
-    cells.stream().forEach(x -> positions.contains(x.toPosition()));
+  public void drawSquare(Integer columns, Integer row, Scalar color){
+    drawSquare(columns.doubleValue(),row.doubleValue(),color);
   }
 
   public void drawSquare(Double column,Double row, Scalar color) {
