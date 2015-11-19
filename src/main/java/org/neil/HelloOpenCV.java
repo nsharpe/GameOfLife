@@ -12,9 +12,10 @@ public class HelloOpenCV {
 
   public static void main(String[] args) {
 
-    CellImage ci = new CellImage(2,3,100);
+    CellImage ci = new CellImage(150,150,5);
 
-    OpenCVisualiser openCVisualiser = new OpenCVisualiser(ci.imageWidth(),ci.imageHeight());
+    OpenCVisualiser openCVisualiser =
+            new OpenCVisualiser(ci.imageWidth(),ci.imageHeight());
 
     openCVisualiser.displayImage(ci.image());
   }

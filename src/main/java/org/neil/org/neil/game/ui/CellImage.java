@@ -1,11 +1,17 @@
 package org.neil.org.neil.game.ui;
 
 import org.neil.game.Position;
-import org.opencv.core.*;
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
+import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
+import java.util.Arrays;
 import java.util.Set;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -19,43 +25,62 @@ public class CellImage {
   private Set<Cell> cells;
   private Mat image;
 
-  final Scalar WHITE = new Scalar(0.0,0.0,0.0);
-  final Scalar BLACK = new Scalar(255.0,255.0,255.0);
+  final Scalar BLACK = new Scalar(0, 0, 0);
+  final Scalar WHITE = new Scalar(255, 255, 255);
 
-  public CellImage(Integer row, Integer column,Integer cellPixelSize) {
-    if(row == null || column == null || cellPixelSize == null){
+  public CellImage(Integer row, Integer column, Integer cellPixelSize) {
+    if (row == null || column == null || cellPixelSize == null) {
       throw new NullPointerException();
     }
     this.rows = row;
     this.columns = column;
     this.cellPixelSize = cellPixelSize;
-    image = new Mat(new Size(imageWidth(),imageHeight()), CvType.CV_64FC4);
+    image = new Mat(new Size(imageWidth()+1, imageHeight()+1), CvType.CV_8UC3);
     resetImage();
   }
 
   public void resetImage() {
-    new Scalar(0.0,0.0,0.0);
-    Imgproc.rectangle(image,topLeftCorner(),bottomRightCorner(),WHITE);
+    IntStream.range(0,rows).asDoubleStream()
+            .forEach(x->{
+              IntStream.range(0,columns).asDoubleStream()
+                      .forEach(y->drawSquare(x,y,WHITE));
+            });
+    drawGrid();
   }
 
-  public Double imageWidth(){
-    return Double.valueOf( columns * cellPixelSize );
+  public Double imageWidth() {
+    return Double.valueOf(columns * cellPixelSize);
   }
 
-  public Double imageHeight(){
-    return Double.valueOf( rows * cellPixelSize );
+  public Double imageHeight() {
+    return Double.valueOf(rows * cellPixelSize);
   }
 
-  public Point topLeftCorner(){
-    return new Point(0,0);
+  public Double cellPixelSize() {
+    return Double.valueOf(cellPixelSize);
   }
 
-  public Point bottomRightCorner(){
-    return new Point(imageWidth().intValue(),imageHeight().intValue());
-  }
-
-  public Mat image(){
+  public Mat image() {
     return image;
+  }
+
+  private void drawGrid() {
+    IntStream.range(0, rows+1)
+            .asDoubleStream()
+            .forEach(x -> {
+              Imgproc.line(image,
+                      new Point(0.0, x * cellPixelSize()),
+                      new Point(imageWidth(), x * cellPixelSize()),
+                      BLACK);
+            });
+    IntStream.range(0, columns+1)
+            .asDoubleStream()
+            .forEach(x -> {
+              Imgproc.line(image,
+                      new Point(x * cellPixelSize(), 0.0),
+                      new Point(x * cellPixelSize(), imageHeight()),
+                      BLACK);
+            });
   }
 
   public void drawLivingCell(Cell c) {
@@ -66,11 +91,20 @@ public class CellImage {
     cells.filter(x -> x.isAlive).forEach(x -> drawLivingCell(x));
   }
 
-  public Stream<Position> getAlivePositions(){
+  public Stream<Position> getAlivePositions() {
     return cells.stream().filter(Cell::isAlive).map(Cell::toPosition);
   }
 
-  public void matchPositions(Set<Position> positions){
+  public void matchPositions(Set<Position> positions) {
     cells.stream().forEach(x -> positions.contains(x.toPosition()));
+  }
+
+  public void drawSquare(Double column,Double row, Scalar color) {
+    Point[] points = new Point[]{new Point(row * cellPixelSize(), column * cellPixelSize()),
+            new Point((1 + row) * cellPixelSize(), column * cellPixelSize()),
+            new Point((1 + row) * cellPixelSize(), (1 + column) * cellPixelSize()),
+            new Point(row * cellPixelSize(), (1 + column) * cellPixelSize())};
+    MatOfPoint matOfPoint = new MatOfPoint(points);
+    Imgproc.fillPoly(image,Arrays.asList(matOfPoint),color);
   }
 }
