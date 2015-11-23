@@ -53,7 +53,7 @@ public class RandomGridSetupTest {
         System.out.println("Number of positions at iteration " + i + " =" + board.size());
         System.out.println(i+" position " + board.toString());
       }
-      board = rule.next(board).collect(Collectors.toSet());
+      board = rule.nextStep(board).collect(Collectors.toSet());
     }
     System.out.println("Result size = " + board.size());
     System.out.println("Result positions = " + board);

@@ -1,6 +1,7 @@
 package org.neil.game;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -13,7 +14,7 @@ import static java.util.stream.Collectors.counting;
 /**
  * Created by neilsharpe on 11/3/15.
  */
-public class StepRule {
+public class StepRule implements GameRule {
 
   private static final Long[] CONWAY_LIVE = {2l};
   private static final Long[] CONWAY_BORN = {3l};
@@ -40,11 +41,11 @@ public class StepRule {
     stayAliveCount.addAll(birthCount);
   }
 
-  public Stream<Position> next(Stream<Position> cellPositions){
-    return next(cellPositions.collect(Collectors.toSet()));
+  public Stream<Position> nextStep(Stream<Position> cellPositions){
+    return nextStep(cellPositions.collect(Collectors.toSet()));
   }
 
-  public Stream<Position> next(Set<Position> cellPositions){
+  public Stream<Position> nextStep(Collection<Position> cellPositions){
     Map<Position,Long> neighborCount = neighborCount(cellPositions);
 
     return neighborCount.entrySet().stream()
@@ -52,7 +53,7 @@ public class StepRule {
             .map( x -> x.getKey());
   }
 
-  public Map<Position,Long> neighborCount(Set<Position> positions){
+  public Map<Position,Long> neighborCount(Collection<Position> positions){
     return positions.stream()
             .flatMap(x->neighbors.of(x))
             .collect(Collectors.groupingBy(identity(),counting()));

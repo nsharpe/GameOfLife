@@ -18,7 +18,7 @@ public class StepRuleTest {
   @Test
   public void testNoNeighbor(){
     Set<Position> positions = init(Position.of(0,0));
-    assertEquals(0,conway.next(positions).count());
+    assertEquals(0,conway.nextStep(positions).count());
   }
 
   @Test
@@ -26,7 +26,7 @@ public class StepRuleTest {
     Set<Position> positions = init(Position.of(0,0));
     positions.add(Position.of(1,1));
     positions.add(Position.of(-1,-1));
-    positions = conway.next(positions).collect(Collectors.toSet());
+    positions = conway.nextStep(positions).collect(Collectors.toSet());
     assertEquals(1,positions.size());
     assertTrue(positions.contains(Position.of(0,0)));
   }
@@ -37,7 +37,7 @@ public class StepRuleTest {
     positions.add(Position.of(0,1));
     positions.add(Position.of(-1,-1));
 
-    positions = conway.next(positions).collect(Collectors.toSet());
+    positions = conway.nextStep(positions).collect(Collectors.toSet());
     assertEquals(1,positions.size());
     assertTrue(positions.contains(Position.of(0,0)));
   }
@@ -49,7 +49,7 @@ public class StepRuleTest {
     positions.add(Position.of(-1,-1));
     positions.add(Position.of(1,0));
 
-    positions = conway.next(positions).collect(Collectors.toSet());
+    positions = conway.nextStep(positions).collect(Collectors.toSet());
     assertEquals(1,positions.size());
     assertTrue(positions.contains(Position.of(0,0)));
   }

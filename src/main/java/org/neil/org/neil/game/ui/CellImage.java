@@ -10,8 +10,6 @@ import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Set;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 

@@ -25,7 +25,7 @@ public class ConwayGameTest {
     System.out.println("Starting test of position size = "+toTest.size());
     DateTime start = DateTime.now();
 
-    Stream<Position> result = StepRule.CONWAYS_GAME_OF_LIFE.next(toTest);
+    Stream<Position> result = StepRule.CONWAYS_GAME_OF_LIFE.nextStep(toTest);
 
     DateTime end = DateTime.now();
     Interval totalTime = new Interval(start,end);
