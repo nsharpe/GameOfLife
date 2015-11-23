@@ -20,6 +20,7 @@ public class CellImage {
   private Integer cellPixelSize;
   private Integer columns;
   private Integer rows;
+  private Boolean showGrid = true;
 
   private Mat image;
 
@@ -67,7 +68,18 @@ public class CellImage {
     return image;
   }
 
+  public Boolean getShowGrid() {
+    return showGrid;
+  }
+
+  public void setShowGrid(Boolean showGrid) {
+    this.showGrid = showGrid;
+  }
+
   private void drawGrid() {
+    if(!showGrid){
+      return;
+    }
     IntStream.range(0, rows+1)
             .asDoubleStream()
             .forEach(x -> {
