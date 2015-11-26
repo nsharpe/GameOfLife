@@ -10,13 +10,12 @@ import java.util.stream.Collectors;
  */
 public class TimedGameEngine extends  GameEngineAbstract {
   private Timer timer;
-  private volatile Set<Position> currentPosition;
 
   public TimedGameEngine(GameRule gameRule,
                          Integer delayInMilliseconds,
                          Set<Position> positions) {
     super(gameRule);
-    this.currentPosition = positions;
+    setPositions(positions);
     timer = new Timer(delayInMilliseconds, timerAction() );
     timer.setRepeats(true);
     timer.setCoalesce(true);
@@ -24,10 +23,9 @@ public class TimedGameEngine extends  GameEngineAbstract {
 
   private ActionListener timerAction(){
     return e -> {
-      currentPosition =
-              getGameRule().nextStep(currentPosition)
-                      .collect(Collectors.toSet());
-      process(currentPosition);
+      setPositions(
+              getGameRule().nextStep(getPositions())
+                      .collect(Collectors.toSet()));
     };
   }
 

@@ -1,6 +1,7 @@
 package org.neil.game;
 
 import java.util.Collection;
+import java.util.Set;
 
 /**
  * Provides an engine for a given Cellular Automata.
@@ -17,6 +18,10 @@ public interface GameEngine {
    * @param toProcess
    */
   void addListener(Processable toProcess);
+
+  void setPositions(Set<Position> positions);
+
+  Set<Position> getPositions();
 
   void start();
   void stop();
