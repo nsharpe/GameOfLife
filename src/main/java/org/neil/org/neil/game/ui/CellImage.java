@@ -9,6 +9,7 @@ import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
+import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -16,11 +17,12 @@ import java.util.stream.Stream;
 /**
  * Created by neilsharpe on 11/3/15.
  */
-public class CellImage {
+public class CellImage implements ImageProcessor{
   private Integer cellPixelSize;
   private Integer columns;
   private Integer rows;
   private Boolean showGrid = true;
+  private OpenCVisualiser openCVisualiser;
 
   private Mat image;
 
@@ -34,11 +36,17 @@ public class CellImage {
     this.rows = row;
     this.columns = column;
     this.cellPixelSize = cellPixelSize;
-    image = new Mat(new Size(imageWidth()+1, imageHeight()+1), CvType.CV_8UC3);
+    openCVisualiser = new OpenCVisualiser();
     resetImage();
   }
 
+  private Mat createNewMat(){
+    return new Mat(new Size(imageWidth()+1, imageHeight()+1), CvType.CV_8UC3);
+  }
+
+
   public void resetImage() {
+    image = createNewMat();
     IntStream.range(0,rows).asDoubleStream()
             .forEach(x->{
               IntStream.range(0,columns).asDoubleStream()
@@ -47,15 +55,24 @@ public class CellImage {
     drawGrid();
   }
 
-  public void drawImage(Stream<Position> positions){
-    resetImage();
-    positions.forEach(x->draw(x));
+  @Override
+  public BufferedImage toImage(Stream<Position> positions) {
+    return openCVisualiser.toBufferedImage(drawImage(positions));
   }
 
+  public Mat drawImage(Stream<Position> positions){
+    image = createNewMat();
+    resetImage();
+    positions.forEach(x->draw(x));
+    return image;
+  }
+
+  @Override
   public Double imageWidth() {
     return Double.valueOf(columns * cellPixelSize);
   }
 
+  @Override
   public Double imageHeight() {
     return Double.valueOf(rows * cellPixelSize);
   }

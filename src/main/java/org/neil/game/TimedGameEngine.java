@@ -20,7 +20,6 @@ public class TimedGameEngine extends  GameEngineAbstract {
     timer = new Timer(delayInMilliseconds, timerAction() );
     timer.setRepeats(true);
     timer.setCoalesce(true);
-    start();
   }
 
   private ActionListener timerAction(){

@@ -1,16 +1,10 @@
 package org.neil;
 
-import org.neil.game.GameEngine;
-import org.neil.game.Position;
-import org.neil.game.RandomGridSetup;
-import org.neil.game.StepRule;
-import org.neil.game.TimedGameEngine;
 import org.neil.org.neil.game.ui.CellImage;
-import org.neil.org.neil.game.ui.OpenCVisualiser;
+import org.neil.org.neil.game.ui.CellularAutomataJFrame;
 import org.opencv.core.Core;
 
-import java.util.Collection;
-import java.util.stream.Collectors;
+import javax.swing.JFrame;
 
 /**
  * Created by neilsharpe on 11/10/15.
@@ -23,17 +17,8 @@ public class HelloOpenCV {
     CellImage ci = new CellImage(150,150,5);
     ci.setShowGrid(false);
 
-    OpenCVisualiser openCVisualiser =
-            new OpenCVisualiser(ci.imageWidth(),ci.imageHeight());
-
-    GameEngine gameEngine =
-            new TimedGameEngine(StepRule.CONWAYS_GAME_OF_LIFE,
-                    100,
-                    RandomGridSetup.makeMap(0.5,150,150)
-                            .collect(Collectors.toSet()));
-    gameEngine.addListener(toProcess -> {
-      ci.drawImage(toProcess.stream());
-      openCVisualiser.displayImage(ci.image());
-    });
+    CellularAutomataJFrame.MAIN.setVisible(true);
+    CellularAutomataJFrame.MAIN
+            .setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
   }
 }

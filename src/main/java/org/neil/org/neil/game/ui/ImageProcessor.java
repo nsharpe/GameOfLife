@@ -12,4 +12,6 @@ public interface ImageProcessor {
 
   BufferedImage toImage(Stream<Position> positions);
 
+  Double imageWidth();
+  Double imageHeight();
 }

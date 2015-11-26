@@ -3,7 +3,6 @@ package org.neil.org.neil.game.ui;
 import org.opencv.core.Mat;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 
@@ -12,26 +11,13 @@ import java.awt.image.DataBufferByte;
  */
 public class OpenCVisualiser {
 
-  private JFrame jFrame = new JFrame();
   private JLabel imageContainer = new JLabel();
-
-  public OpenCVisualiser(Double width, Double height){
-    this(width.intValue(),height.intValue());
-  }
-
-  public OpenCVisualiser(Integer width, Integer height){
-    jFrame.setLayout(new FlowLayout());
-    jFrame.setSize(width,height);
-    jFrame.add(imageContainer);
-    jFrame.setVisible(true);
-    jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-  }
 
   public void displayImage(Mat m){
     imageContainer.setIcon(new ImageIcon(toBufferedImage(m)));
   }
 
-  private BufferedImage toBufferedImage(Mat m) {
+  public BufferedImage toBufferedImage(Mat m) {
     int type = BufferedImage.TYPE_BYTE_GRAY;
 
     if ( m.channels() >= 1 ) {
