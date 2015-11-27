@@ -2,7 +2,8 @@ package org.neil.org.neil.game.ui;
 
 import org.opencv.core.Mat;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 

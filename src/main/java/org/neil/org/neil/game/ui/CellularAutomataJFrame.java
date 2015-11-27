@@ -29,8 +29,8 @@ public class CellularAutomataJFrame extends JFrame{
   private CellularAutomataJFrame(){
     gameEngine = defaultGameEngine();
     imageProcessor = new CellImage(rows,columns,5);
-    setSize(imageProcessor.imageWidth().intValue()+100,
-            imageProcessor.imageHeight().intValue() + 10);
+    setSize(imageProcessor.imageWidth().intValue()+200,
+            imageProcessor.imageHeight().intValue() + 50);
     setLayout(new FlowLayout());
     add(new ControlPanel(gameEngine,rows,columns));
     add(imageContainer);
