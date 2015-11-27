@@ -99,12 +99,12 @@ public class ControlPanel extends JPanel {
             .forEach(x -> button.removeActionListener(x));
   }
 
-  private void setRandomRatio(JTextField s){
+  private void setRandomRatio(JTextField jTextField){
     try {
-      randomRatio = Double.parseDouble(s.getText());
+      randomRatio = Double.parseDouble(jTextField.getText());
     } catch (NumberFormatException ex) {
-      JOptionPane.showMessageDialog(new JLabel("Error Message"),"The following is not a valid ratio" + s.getText());
-      s.setText(String.valueOf(randomRatio));
+      JOptionPane.showMessageDialog(new JLabel("Error Message"),"The following is not a valid ratio" + jTextField.getText());
+      jTextField.setText(String.valueOf(randomRatio));
     }
   }
 
