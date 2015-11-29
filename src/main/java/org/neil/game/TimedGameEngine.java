@@ -1,5 +1,7 @@
 package org.neil.game;
 
+import org.neil.game.model.Position;
+
 import javax.swing.Timer;
 import java.awt.event.ActionListener;
 import java.util.Set;

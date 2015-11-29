@@ -3,6 +3,7 @@ package org.neil.game;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.junit.Test;
+import org.neil.game.model.Position;
 
 import java.util.Set;
 import java.util.stream.Collectors;

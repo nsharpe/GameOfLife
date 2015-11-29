@@ -1,4 +1,6 @@
-package org.neil.game;
+package org.neil.game.model;
+
+import org.neil.game.model.Position;
 
 import java.util.stream.Stream;
 

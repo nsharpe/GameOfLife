@@ -1,6 +1,6 @@
 package org.neil.org.neil.game.ui;
 
-import org.neil.game.Position;
+import org.neil.game.model.Position;
 
 import java.awt.image.BufferedImage;
 import java.util.stream.Stream;

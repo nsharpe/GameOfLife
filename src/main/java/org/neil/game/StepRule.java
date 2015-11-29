@@ -1,5 +1,8 @@
 package org.neil.game;
 
+import org.neil.game.model.Neighbors;
+import org.neil.game.model.Position;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;

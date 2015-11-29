@@ -1,4 +1,4 @@
-package org.neil.game;
+package org.neil.game.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;

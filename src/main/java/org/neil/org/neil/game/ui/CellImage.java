@@ -1,6 +1,6 @@
 package org.neil.org.neil.game.ui;
 
-import org.neil.game.Position;
+import org.neil.game.model.Position;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;

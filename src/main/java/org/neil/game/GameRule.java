@@ -1,5 +1,7 @@
 package org.neil.game;
 
+import org.neil.game.model.Position;
+
 import java.util.Collection;
 import java.util.stream.Stream;
 

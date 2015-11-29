@@ -1,6 +1,9 @@
 package org.neil.game;
 
 
+import org.neil.game.model.Neighbors;
+import org.neil.game.model.Position;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;

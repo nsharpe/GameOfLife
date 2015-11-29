@@ -1,10 +1,10 @@
 package org.neil.game;
 
 import org.junit.Test;
+import org.neil.game.model.Position;
 
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.TestCase.assertEquals;
