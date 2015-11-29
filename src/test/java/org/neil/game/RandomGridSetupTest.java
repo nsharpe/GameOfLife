@@ -1,6 +1,7 @@
 package org.neil.game;
 
 import org.junit.Test;
+import org.neil.game.controler.StepRule;
 import org.neil.game.model.Position;
 
 import java.util.Set;

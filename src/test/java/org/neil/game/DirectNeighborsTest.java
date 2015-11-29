@@ -1,6 +1,7 @@
 package org.neil.game;
 
 import org.junit.Test;
+import org.neil.game.model.DirectNeighbors;
 import org.neil.game.model.Position;
 
 import java.util.Set;

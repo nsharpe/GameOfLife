@@ -1,9 +1,9 @@
 package org.neil.org.neil.game.ui;
 
-import org.neil.game.GameEngine;
+import org.neil.game.controler.GameEngine;
 import org.neil.game.RandomGridSetup;
-import org.neil.game.StepRule;
-import org.neil.game.TimedGameEngine;
+import org.neil.game.controler.StepRule;
+import org.neil.game.controler.TimedGameEngine;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;

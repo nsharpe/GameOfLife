@@ -1,7 +1,7 @@
 package org.neil.org.neil.game.ui;
 
 
-import org.neil.game.GameEngine;
+import org.neil.game.controler.GameEngine;
 import org.neil.game.RandomGridSetup;
 
 import javax.swing.BoxLayout;
