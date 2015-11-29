@@ -1,4 +1,4 @@
-package org.neil.org.neil.game.ui;
+package org.neil.game.ui;
 
 import org.neil.game.model.Position;
 import org.opencv.core.CvType;

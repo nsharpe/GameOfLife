@@ -1,4 +1,4 @@
-package org.neil.org.neil.game.ui;
+package org.neil.game.ui;
 
 import org.opencv.core.Mat;
 

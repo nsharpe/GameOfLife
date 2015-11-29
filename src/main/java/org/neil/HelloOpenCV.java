@@ -1,7 +1,7 @@
 package org.neil;
 
-import org.neil.org.neil.game.ui.CellImage;
-import org.neil.org.neil.game.ui.CellularAutomataJFrame;
+import org.neil.game.ui.CellImage;
+import org.neil.game.ui.CellularAutomataJFrame;
 import org.opencv.core.Core;
 
 import javax.swing.JFrame;
