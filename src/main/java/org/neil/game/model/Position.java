@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -33,6 +34,17 @@ public class Position {
 
   public Integer numOfAxis(){
     return position.size();
+  }
+
+  public Position move(Position p){
+    if(p.position.size() != position.size()){
+      throw new IllegalStateException();
+    }
+    return of(IntStream.range(0,numOfAxis()).mapToObj(x->axis(x)+p.axis(x)));
+  }
+
+  public Position invert(){
+    return of(position.stream().map(x->x * -1));
   }
 
   public static Position of(Stream<Integer> pos){
