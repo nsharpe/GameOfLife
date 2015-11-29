@@ -1,4 +1,4 @@
-package org.neil.game;
+package org.neil.game.controler;
 
 import org.neil.game.model.Position;
 

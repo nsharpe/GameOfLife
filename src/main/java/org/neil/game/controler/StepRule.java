@@ -1,5 +1,6 @@
-package org.neil.game;
+package org.neil.game.controler;
 
+import org.neil.game.model.DirectNeighbors;
 import org.neil.game.model.Neighbors;
 import org.neil.game.model.Position;
 
