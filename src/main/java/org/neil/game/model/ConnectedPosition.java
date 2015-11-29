@@ -106,13 +106,14 @@ public class ConnectedPosition {
     Set<Position> connected = neighbors.of(p)
             .filter(x -> allCells.contains(x))
             .collect(Collectors.toSet());
-
     allCells.removeAll(connected);
 
     connected.addAll(connected.stream()
             .flatMap(x -> connectedPositions(x, allCells, neighbors).stream())
             .collect(Collectors.toSet()));
 
+    allCells.remove(p);
+    connected.add(p);
     return connected;
   }
 }

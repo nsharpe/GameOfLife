@@ -34,6 +34,26 @@ public class ConnectedPositionTest {
   }
 
   @Test
+  public void testDisConnected() {
+    Set<ConnectedPosition> connectedPositions = ConnectedPosition.of(
+            Stream.of(
+                    Position.of(0, 0),
+                    Position.of(2, 2)),
+            new DirectNeighbors());
+    assertEquals(2,connectedPositions.size());
+    assertTrue(connectedPositions
+            .stream()
+            .filter(x->x.contains(Position.of(0,0)))
+            .findFirst()
+            .isPresent());
+    assertTrue(connectedPositions
+            .stream()
+            .filter(x->x.contains(Position.of(2,2)))
+            .findFirst()
+            .isPresent());
+  }
+
+  @Test
   public void testCentralize(){
     Set<ConnectedPosition> connectedPositions = ConnectedPosition.of(
             Stream.of(
