@@ -1,9 +1,9 @@
 package org.neil.game.ui;
 
 import org.neil.game.controler.GameEngine;
-import org.neil.game.controler.GameRule;
 import org.neil.game.model.Position;
 
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import java.awt.Button;
 import java.util.ArrayList;
@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by neilsharpe on 11/28/15.
@@ -20,23 +19,28 @@ public abstract class EngineControlPanel extends JPanel {
   private GameEngine gameEngine;
   private GameRulePanel gameRulePanel;
   private Collection<Position> currentPositions = Collections.emptyList();
+  private Boolean isRunning = false;
+
+  private Collection<GameEngine.Processable> processables = new ArrayList<>();
 
   public EngineControlPanel(){
     add(setToStart(new Button()));
     this.gameRulePanel = new GameRulePanel();
     add(gameRulePanel);
+    setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
   }
-
-  private Collection<GameEngine.Processable> processables = new ArrayList<>();
 
   protected void setGameEngine(GameEngine gameEngine){
     if(this.gameEngine!=null){
-      gameEngine.stop();
+      this.gameEngine.stop();
     }
     this.gameEngine = gameEngine;
     this.gameEngine.addListener(x->currentPositions=x);
     this.gameEngine.setPositions(new HashSet<>(currentPositions));
     processables.forEach(x->gameEngine.addListener(x));
+    if(isRunning){
+      this.gameEngine.start();
+    }
   }
 
 
@@ -61,6 +65,7 @@ public abstract class EngineControlPanel extends JPanel {
     button.addActionListener(x -> {
       getGameEngine().start();
       setToStop(button);
+      isRunning = true;
     });
     return button;
   }
@@ -71,6 +76,7 @@ public abstract class EngineControlPanel extends JPanel {
     button.addActionListener(x -> {
       getGameEngine().stop();
       setToStart(button);
+      isRunning = false;
     });
     return button;
   }

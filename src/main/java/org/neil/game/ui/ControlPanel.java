@@ -77,10 +77,22 @@ public class ControlPanel extends JPanel {
 
   private void setRandomRatio(JTextField jTextField){
     try {
-      randomRatio = Double.parseDouble(jTextField.getText());
+      if(!jTextField.getText().matches("\\s*")) {
+        Double toSet = Double.parseDouble(jTextField.getText());
+        if(toSet > 1){
+          throw new IllegalStateException("Value must be less then or equal to 1");
+        }
+        if(toSet < 0){
+          throw new IllegalStateException("Value must be greater then or equal to 0");
+        }
+        randomRatio = toSet;
+      }
     } catch (NumberFormatException ex) {
       JOptionPane.showMessageDialog(new JLabel("Error Message"),"The following is not a valid ratio" + jTextField.getText());
-      jTextField.setText(String.valueOf(randomRatio));
+      jTextField.setText(String.valueOf(randomRatio.toString()));
+    } catch( IllegalStateException ex){
+      JOptionPane.showMessageDialog(new JLabel("Error Message"),ex.getMessage());
+      jTextField.setText(String.valueOf(randomRatio.toString()));
     }
   }
 
