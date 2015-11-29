@@ -12,7 +12,6 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.Button;
-import java.util.Arrays;
 import java.util.stream.Collectors;
 
 
@@ -21,41 +20,19 @@ import java.util.stream.Collectors;
  */
 public class ControlPanel extends JPanel {
 
-  private GameEngine gameEngine;
   private Integer rows, columns;
   private Double randomRatio = 0.5;
+  private EngineControlPanel gameEngineControlPanel;
 
-  public ControlPanel(GameEngine gameEngine, Integer rows, Integer columns) {
-    if (gameEngine == null) {
-      throw new NullPointerException("gameEngine");
-    }
+  public ControlPanel( Integer rows, Integer columns) {
     this.rows = rows;
     this.columns = columns;
-    this.gameEngine = gameEngine;
-    add(setToStart(new Button()));
+    gameEngineControlPanel = new TimedGameEngineControlPanel();
+
+    add(gameEngineControlPanel);
     add(createRandomSection());
 
     setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-  }
-
-  private Button setToStart(Button button) {
-    button.setLabel("Start");
-    removeActionListeners(button);
-    button.addActionListener(x -> {
-      gameEngine.start();
-      setToStop(button);
-    });
-    return button;
-  }
-
-  private Button setToStop(Button button) {
-    button.setLabel("Stop");
-    removeActionListeners(button);
-    button.addActionListener(x -> {
-      gameEngine.stop();
-      setToStart(button);
-    });
-    return button;
   }
 
   private JPanel createRandomSection() {
@@ -68,10 +45,14 @@ public class ControlPanel extends JPanel {
 
   private Button createRandomizeButton() {
     Button toReturn = new Button("Randomize");
-    toReturn.addActionListener(x -> gameEngine.setPositions(
+    toReturn.addActionListener(x -> gameEngineControlPanel.getGameEngine().setPositions(
             RandomGridSetup.makeMap(randomRatio, rows, columns)
                     .collect(Collectors.toSet())));
     return toReturn;
+  }
+
+  public void add(GameEngine.Processable toProcess) {
+    gameEngineControlPanel.add(toProcess);
   }
 
   private JTextField getRandomRatioTextField(){
@@ -92,11 +73,6 @@ public class ControlPanel extends JPanel {
       }
     });
     return toReturn;
-  }
-
-  private void removeActionListeners(Button button) {
-    Arrays.stream(button.getActionListeners())
-            .forEach(x -> button.removeActionListener(x));
   }
 
   private void setRandomRatio(JTextField jTextField){

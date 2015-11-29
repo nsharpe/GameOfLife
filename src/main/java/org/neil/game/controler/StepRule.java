@@ -45,6 +45,15 @@ public class StepRule implements GameRule {
     stayAliveCount.addAll(birthCount);
   }
 
+  public StepRule(Collection<Integer> stayAliveCount, Collection<Integer> birthCount) {
+    if(stayAliveCount==null || birthCount == null){
+      throw new NullPointerException();
+    }
+    this.stayAliveCount = stayAliveCount.stream().map(x->x.longValue()).collect(Collectors.toSet());
+    this.birthCount = birthCount.stream().map(x->x.longValue()).collect(Collectors.toSet());;
+    stayAliveCount.addAll(birthCount);
+  }
+
   public Stream<Position> nextStep(Stream<Position> cellPositions){
     return nextStep(cellPositions.collect(Collectors.toSet()));
   }
