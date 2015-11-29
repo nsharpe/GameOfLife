@@ -1,5 +1,6 @@
 package org.neil.game.ui;
 
+import org.neil.game.controler.GameEngine;
 import org.neil.game.controler.TimedGameEngine;
 
 import java.util.Collections;
@@ -12,7 +13,11 @@ public class TimedGameEngineControlPanel extends EngineControlPanel {
 
   public TimedGameEngineControlPanel(){
     super();
-    setGameEngine(new TimedGameEngine(getGameRulePanel().getGameRule(),300, Collections.EMPTY_SET));
+    setGameEngine(createGameEngine());
+  }
+
+  private GameEngine createGameEngine(){
+    return new TimedGameEngine(getGameRulePanel().getGameRule(),300);
   }
 
   private Integer millisecondDelay() {

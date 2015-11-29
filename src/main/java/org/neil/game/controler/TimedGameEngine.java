@@ -4,6 +4,7 @@ import org.neil.game.model.Position;
 
 import javax.swing.Timer;
 import java.awt.event.ActionListener;
+import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -13,6 +14,10 @@ import java.util.stream.Collectors;
 public class TimedGameEngine extends  GameEngineAbstract {
   private Timer timer;
 
+  public TimedGameEngine(GameRule gameRule,
+                         Integer delayInMilliseconds){
+    this(gameRule,delayInMilliseconds, Collections.emptySet());
+  }
   public TimedGameEngine(GameRule gameRule,
                          Integer delayInMilliseconds,
                          Set<Position> positions) {

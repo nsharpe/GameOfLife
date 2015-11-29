@@ -2,12 +2,16 @@ package org.neil.game.ui;
 
 import org.neil.game.controler.GameEngine;
 import org.neil.game.controler.GameRule;
+import org.neil.game.model.Position;
 
 import javax.swing.JPanel;
 import java.awt.Button;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by neilsharpe on 11/28/15.
@@ -15,6 +19,7 @@ import java.util.Collection;
 public abstract class EngineControlPanel extends JPanel {
   private GameEngine gameEngine;
   private GameRulePanel gameRulePanel;
+  private Collection<Position> currentPositions = Collections.emptyList();
 
   public EngineControlPanel(){
     add(setToStart(new Button()));
@@ -29,6 +34,8 @@ public abstract class EngineControlPanel extends JPanel {
       gameEngine.stop();
     }
     this.gameEngine = gameEngine;
+    this.gameEngine.addListener(x->currentPositions=x);
+    this.gameEngine.setPositions(new HashSet<>(currentPositions));
     processables.forEach(x->gameEngine.addListener(x));
   }
 
