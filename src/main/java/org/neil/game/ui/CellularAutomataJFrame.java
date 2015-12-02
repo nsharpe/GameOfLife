@@ -34,7 +34,7 @@ public class CellularAutomataJFrame extends JFrame{
 
     imageProcessor = new CellImage(rows,columns,5);
     controlPanel = new ControlPanel(rows,columns);
-    setSize(imageProcessor.imageWidth().intValue()+200,
+    setSize(imageProcessor.imageWidth().intValue()+250,
             imageProcessor.imageHeight().intValue() + 50);
     setLayout(new FlowLayout());
     add(controlPanel);
@@ -46,6 +46,7 @@ public class CellularAutomataJFrame extends JFrame{
       imageContainer.setIcon(
               new ImageIcon(imageProcessor.toImage(toProcess.stream())))
     );
+    controlPanel.randomizeBoard();
   }
 
   public Collection<Position> getCurrentPosition() {

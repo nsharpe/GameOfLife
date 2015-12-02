@@ -60,12 +60,8 @@ public class TimedGameEngineControlPanel extends EngineControlPanel {
     }
   }
 
-  public void resetGameEngine(){
-    setGameEngine(createGameEngine());
-  }
-
-
-  private GameEngine createGameEngine(){
+  @Override
+  public GameEngine createGameEngine(){
     return new TimedGameEngine(getGameRulePanel().getGameRule(),millisecondDelay());
   }
 

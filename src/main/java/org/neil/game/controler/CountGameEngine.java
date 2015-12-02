@@ -2,8 +2,12 @@ package org.neil.game.controler;
 
 import org.neil.game.model.Position;
 
+import java.awt.Button;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -14,6 +18,12 @@ import java.util.stream.Collectors;
 public class CountGameEngine extends GameEngineAbstract {
   private AtomicBoolean continueProcessing = new AtomicBoolean(true);
   private AtomicInteger iterations;
+  private ExecutorService executorService;
+
+  public CountGameEngine(GameRule gameRule,
+                         Integer iterations){
+    this(gameRule, Collections.emptySet(),iterations);
+  }
 
   public CountGameEngine(GameRule gameRule,
                          Collection<Position> positions,
@@ -31,15 +41,28 @@ public class CountGameEngine extends GameEngineAbstract {
     return getPositions();
   }
 
+  public Integer getNumberOfIterationsRemaining(){
+    return iterations.get();
+  }
 
   @Override
   public void start() {
+    stop();
     continueProcessing.set(true);
-    runGame();
+    executorService = Executors.newSingleThreadExecutor();
+    executorService.submit(new Runnable() {
+      @Override
+      public void run() {
+        runGame();
+      }
+    });
   }
 
   @Override
   public void stop() {
+    if(executorService!=null){
+      executorService.shutdown();
+    }
     continueProcessing.set(false);
   }
 }

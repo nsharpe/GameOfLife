@@ -20,14 +20,21 @@ public abstract class EngineControlPanel extends JPanel {
   private GameRulePanel gameRulePanel;
   private Collection<Position> currentPositions = Collections.emptyList();
   private Boolean isRunning = false;
+  private Button startStopButton = new Button();
 
   private Collection<GameEngine.Processable> processables = new ArrayList<>();
 
   public EngineControlPanel(){
-    add(setToStart(new Button()));
+    add(setToStart(startStopButton));
     this.gameRulePanel = new GameRulePanel();
     add(gameRulePanel);
     setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+  }
+
+  public abstract GameEngine createGameEngine();
+
+  public void resetGameEngine(){
+    setGameEngine(createGameEngine());
   }
 
   protected void setGameEngine(GameEngine gameEngine){
@@ -43,7 +50,6 @@ public abstract class EngineControlPanel extends JPanel {
     }
   }
 
-
   public void add(GameEngine.Processable processable){
     processables.add(processable);
     if(gameEngine!=null) {
@@ -57,6 +63,14 @@ public abstract class EngineControlPanel extends JPanel {
 
   public GameEngine getGameEngine() {
     return gameEngine;
+  }
+
+  public void start(){
+    setToStop(startStopButton);
+  }
+
+  public void stop(){
+    setToStart(startStopButton);
   }
 
   private Button setToStart(Button button) {
