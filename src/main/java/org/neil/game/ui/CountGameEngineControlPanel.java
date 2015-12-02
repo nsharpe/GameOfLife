@@ -37,7 +37,7 @@ public class CountGameEngineControlPanel extends  EngineControlPanel {
     {
       numberOfIterationsRemaining
             .setText("remaining: "+toReturn.getNumberOfIterationsRemaining());
-      if(toReturn.getNumberOfIterationsRemaining() == 0){
+      if(toReturn.getNumberOfIterationsRemaining() <= 0){
         stop();
       }
     });

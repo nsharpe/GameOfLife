@@ -34,7 +34,7 @@ public class CountGameEngine extends GameEngineAbstract {
   }
 
   public Set<Position> runGame(){
-    while(continueProcessing.get() && iterations.getAndDecrement() >= 0){
+    while(continueProcessing.get() && iterations.getAndDecrement() > 0){
       setPositions(getGameRule().nextStep(getPositions())
               .collect(Collectors.toSet()));
     }
