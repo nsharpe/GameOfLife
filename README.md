@@ -9,6 +9,17 @@ This project was started with the intention of being an example of Conway's Game
 * To allow the games to be visualised through OpenCV
 
 It is intended for educational purposes only.
+
+## Requirments ##
+* Java 8 installed
+* Gradle
+* An instance of opencv-3.0 jar
+
+## How to install ##
+In build.gradle replace the following with your own instance of Open CV 3.0 jar.  
+```
+/Users/neilsharpe/OpenCv/opencv-3.0.0/build/bin/opencv-300.jar
+```
  
 ## Definitions ##
 * Game
