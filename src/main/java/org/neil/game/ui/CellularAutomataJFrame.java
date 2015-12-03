@@ -43,9 +43,9 @@ public class CellularAutomataJFrame extends JFrame{
     imageContainer.setIcon(new ImageIcon(imageProcessor.toImage(Stream.empty())));
 
     controlPanel.add(toProcess ->
-      imageContainer.setIcon(
-              new ImageIcon(imageProcessor.toImage(toProcess.stream())))
-    );
+            imageContainer.setIcon(
+                    new ImageIcon(imageProcessor.toImage(controlPanel.getCurrentEngine().getGameEngine().getPositions().stream()))));
+
     controlPanel.randomizeBoard();
   }
 

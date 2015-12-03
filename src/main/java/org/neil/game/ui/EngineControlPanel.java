@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by neilsharpe on 11/28/15.
@@ -21,6 +23,7 @@ public abstract class EngineControlPanel extends JPanel {
   private Collection<Position> currentPositions = Collections.emptyList();
   private Boolean isRunning = false;
   private Button startStopButton = new Button();
+  private ExecutorService engineProcessor = Executors.newSingleThreadExecutor();
 
   private Collection<GameEngine.Processable> processables = new ArrayList<>();
 
@@ -51,6 +54,7 @@ public abstract class EngineControlPanel extends JPanel {
   }
 
   public void add(GameEngine.Processable processable){
+    processable = new ThreadProcessable(processable,engineProcessor);
     processables.add(processable);
     if(gameEngine!=null) {
       gameEngine.addListener(processable);
@@ -77,6 +81,7 @@ public abstract class EngineControlPanel extends JPanel {
     button.setLabel("Start");
     removeActionListeners(button);
     button.addActionListener(x -> {
+      engineProcessor = Executors.newSingleThreadExecutor();
       getGameEngine().start();
       setToStop(button);
       isRunning = true;
@@ -91,6 +96,8 @@ public abstract class EngineControlPanel extends JPanel {
       getGameEngine().stop();
       setToStart(button);
       isRunning = false;
+
+      engineProcessor.shutdown();
     });
     return button;
   }
@@ -98,5 +105,25 @@ public abstract class EngineControlPanel extends JPanel {
   private void removeActionListeners(Button button) {
     Arrays.stream(button.getActionListeners())
             .forEach(x -> button.removeActionListener(x));
+  }
+
+  public static class ThreadProcessable implements GameEngine.Processable{
+    GameEngine.Processable wrapper;
+    ExecutorService executorService;
+
+    public ThreadProcessable(GameEngine.Processable wrapper, ExecutorService toRun) {
+      this.wrapper = wrapper;
+      this.executorService = toRun;
+    }
+
+    @Override
+    public void process(Collection<Position> toProcess) {
+      executorService.submit(new Runnable() {
+        @Override
+        public void run() {
+          wrapper.process(toProcess);
+        }
+      });
+    }
   }
 }

@@ -9,7 +9,6 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.Button;
-import java.awt.Component;
 
 /**
  * Created by neilsharpe on 11/29/15.

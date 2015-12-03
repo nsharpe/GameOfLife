@@ -31,7 +31,7 @@ public class ControlPanel extends JPanel {
   private Integer rows, columns;
   private Double randomRatio = 0.5;
   private Collection<EngineControlPanel> gameControlPannels = new ArrayList<>();
-  private Collection<Position> currentPosition;
+  private EngineControlPanel currentEngine;
 
   public ControlPanel( Integer rows, Integer columns) {
     this.rows = rows;
@@ -52,7 +52,8 @@ public class ControlPanel extends JPanel {
 
     jComboBox.addItemListener(x->{
       if (x.getStateChange() == ItemEvent.SELECTED) {
-        ((DropDownGameEngine)x.getItem()).panel.setVisible(true);
+        currentEngine = ((DropDownGameEngine)x.getItem()).panel;
+        currentEngine.setVisible(true);
       } else {
         ((DropDownGameEngine)x.getItem()).panel.setVisible(false);
         ((DropDownGameEngine)x.getItem()).panel.getGameEngine().stop();
@@ -67,10 +68,15 @@ public class ControlPanel extends JPanel {
               toReturn.add(y);
               gameControlPannels.add(y);
             });
+    currentEngine = ((DropDownGameEngine)jComboBox.getItemAt(0)).panel;
     IntStream.range(1,jComboBox.getItemCount())
             .forEach(x->((DropDownGameEngine)jComboBox.getItemAt(x)).panel.setVisible(false));
     toReturn.setLayout(new BoxLayout(toReturn, BoxLayout.PAGE_AXIS));
     return toReturn;
+  }
+
+  public EngineControlPanel getCurrentEngine() {
+    return currentEngine;
   }
 
   private JPanel createRandomSection() {
