@@ -36,7 +36,7 @@ public abstract class GameEngineAbstract implements GameEngine {
   }
 
   public void process(Collection<Position> positions){
-    toProcess.stream().forEach(x->x.process(positions));
+    toProcess.forEach(x->x.process(positions));
   }
 
   public GameRule getGameRule() {

@@ -24,10 +24,6 @@ public class Position {
     this.position = Collections.unmodifiableList(position);
   }
 
-  public  Integer axis(Long l){
-    return axis(l.intValue());
-  }
-
   public Integer axis(Integer i){
     return position.get(i);
   }
@@ -54,7 +50,7 @@ public class Position {
     return new Position(new ArrayList<>(pos));
   }
   public static Position of(Integer ... pos){
-    return of(Arrays.asList(pos));
+    return of(Stream.of(pos));
   }
 
   @Override

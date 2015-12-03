@@ -54,10 +54,6 @@ public class StepRule implements GameRule {
     stayAliveCount.addAll(birthCount);
   }
 
-  public Stream<Position> nextStep(Stream<Position> cellPositions){
-    return nextStep(cellPositions.collect(Collectors.toSet()));
-  }
-
   public Stream<Position> nextStep(Collection<Position> cellPositions){
     Map<Position,Long> neighborCount = neighborCount(cellPositions);
 

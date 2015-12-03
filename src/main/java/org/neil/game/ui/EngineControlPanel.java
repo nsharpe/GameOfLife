@@ -18,12 +18,12 @@ import java.util.concurrent.Executors;
  * Created by neilsharpe on 11/28/15.
  */
 public abstract class EngineControlPanel extends JPanel {
-  private GameEngine gameEngine;
+  private volatile GameEngine gameEngine;
   private GameRulePanel gameRulePanel;
   private Collection<Position> currentPositions = Collections.emptyList();
   private Boolean isRunning = false;
   private Button startStopButton = new Button();
-  private ExecutorService engineProcessor = Executors.newSingleThreadExecutor();
+  private volatile ExecutorService engineProcessor = Executors.newSingleThreadExecutor();
 
   private Collection<GameEngine.Processable> processables = new ArrayList<>();
 
@@ -54,7 +54,7 @@ public abstract class EngineControlPanel extends JPanel {
   }
 
   public void add(GameEngine.Processable processable){
-    processable = new ThreadProcessable(processable,engineProcessor);
+    processable = new ThreadProcessable(processable,this);
     processables.add(processable);
     if(gameEngine!=null) {
       gameEngine.addListener(processable);
@@ -74,32 +74,40 @@ public abstract class EngineControlPanel extends JPanel {
   }
 
   public void stop(){
-    setToStart(startStopButton);
+    stopAction();
   }
 
   private Button setToStart(Button button) {
     button.setLabel("Start");
     removeActionListeners(button);
     button.addActionListener(x -> {
-      engineProcessor = Executors.newSingleThreadExecutor();
-      getGameEngine().start();
-      setToStop(button);
-      isRunning = true;
+      startAction();
     });
     return button;
+  }
+
+  private void startAction(){
+    engineProcessor = Executors.newSingleThreadExecutor();
+    getGameEngine().start();
+    setToStop(startStopButton);
+    isRunning = true;
   }
 
   private Button setToStop(Button button) {
     button.setLabel("Stop");
     removeActionListeners(button);
     button.addActionListener(x -> {
-      getGameEngine().stop();
-      setToStart(button);
-      isRunning = false;
-
-      engineProcessor.shutdown();
+      stopAction();
     });
     return button;
+  }
+
+  private void stopAction(){
+    getGameEngine().stop();
+    setToStart(startStopButton);
+    isRunning = false;
+
+    engineProcessor.shutdown();
   }
 
   private void removeActionListeners(Button button) {
@@ -111,9 +119,9 @@ public abstract class EngineControlPanel extends JPanel {
     GameEngine.Processable wrapper;
     ExecutorService executorService;
 
-    public ThreadProcessable(GameEngine.Processable wrapper, ExecutorService toRun) {
+    public ThreadProcessable(GameEngine.Processable wrapper, EngineControlPanel toRun) {
       this.wrapper = wrapper;
-      this.executorService = toRun;
+      this.executorService = toRun.engineProcessor;
     }
 
     @Override

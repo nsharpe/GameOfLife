@@ -50,12 +50,7 @@ public class CountGameEngine extends GameEngineAbstract {
     stop();
     continueProcessing.set(true);
     executorService = Executors.newSingleThreadExecutor();
-    executorService.submit(new Runnable() {
-      @Override
-      public void run() {
-        runGame();
-      }
-    });
+    executorService.submit((Runnable) CountGameEngine.this::runGame);
   }
 
   @Override

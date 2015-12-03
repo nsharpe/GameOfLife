@@ -75,7 +75,7 @@ public class CountGameEngineControlPanel extends  EngineControlPanel {
         numberOfIterations = Integer.valueOf(jTextField.getText());
       }
     } catch (NumberFormatException ex) {
-      JOptionPane.showMessageDialog(new JLabel("Error Message"),"The following is not a valid frame per second" + jTextField.getText());
+      JOptionPane.showMessageDialog(new JLabel("Error Message"),"The following is not a valid frame per second: " + jTextField.getText());
       jTextField.setText(String.valueOf(numberOfIterations));
     }
   }

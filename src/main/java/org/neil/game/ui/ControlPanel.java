@@ -139,7 +139,7 @@ public class ControlPanel extends JPanel {
         randomRatio = toSet;
       }
     } catch (NumberFormatException ex) {
-      JOptionPane.showMessageDialog(new JLabel("Error Message"),"The following is not a valid ratio" + jTextField.getText());
+      JOptionPane.showMessageDialog(new JLabel("Error Message"),"The following is not a valid ratio: " + jTextField.getText());
       jTextField.setText(String.valueOf(randomRatio.toString()));
     } catch( IllegalStateException ex){
       JOptionPane.showMessageDialog(new JLabel("Error Message"),ex.getMessage());
