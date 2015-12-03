@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by neilsharpe on 11/28/15.
@@ -21,7 +22,7 @@ public abstract class EngineControlPanel extends JPanel {
   private volatile GameEngine gameEngine;
   private GameRulePanel gameRulePanel;
   private Collection<Position> currentPositions = Collections.emptyList();
-  private Boolean isRunning = false;
+  private AtomicBoolean isRunning = new AtomicBoolean(false);
   private Button startStopButton = new Button();
   private volatile ExecutorService engineProcessor = Executors.newSingleThreadExecutor();
 
@@ -48,7 +49,7 @@ public abstract class EngineControlPanel extends JPanel {
     this.gameEngine.addListener(x->currentPositions=x);
     this.gameEngine.setPositions(new HashSet<>(currentPositions));
     processables.forEach(x->gameEngine.addListener(x));
-    if(isRunning){
+    if(isRunning.get()){
       this.gameEngine.start();
     }
   }
@@ -90,7 +91,7 @@ public abstract class EngineControlPanel extends JPanel {
     engineProcessor = Executors.newSingleThreadExecutor();
     getGameEngine().start();
     setToStop(startStopButton);
-    isRunning = true;
+    isRunning.set( true);
   }
 
   private Button setToStop(Button button) {
@@ -105,7 +106,7 @@ public abstract class EngineControlPanel extends JPanel {
   private void stopAction(){
     getGameEngine().stop();
     setToStart(startStopButton);
-    isRunning = false;
+    isRunning.set(false);
 
     engineProcessor.shutdown();
   }
@@ -117,19 +118,21 @@ public abstract class EngineControlPanel extends JPanel {
 
   public static class ThreadProcessable implements GameEngine.Processable{
     GameEngine.Processable wrapper;
-    ExecutorService executorService;
+    EngineControlPanel controlPanel;
 
     public ThreadProcessable(GameEngine.Processable wrapper, EngineControlPanel toRun) {
       this.wrapper = wrapper;
-      this.executorService = toRun.engineProcessor;
+      this.controlPanel = toRun;
     }
 
     @Override
     public void process(Collection<Position> toProcess) {
-      executorService.submit(new Runnable() {
+      controlPanel.engineProcessor.submit(new Runnable() {
         @Override
         public void run() {
-          wrapper.process(toProcess);
+          if(!controlPanel.engineProcessor.isShutdown()) {
+            wrapper.process(toProcess);
+          }
         }
       });
     }
