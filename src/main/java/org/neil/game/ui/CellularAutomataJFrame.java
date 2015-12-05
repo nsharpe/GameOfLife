@@ -42,9 +42,14 @@ public class CellularAutomataJFrame extends JFrame{
     setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
     imageContainer.setIcon(new ImageIcon(imageProcessor.toImage(Stream.empty())));
 
-    controlPanel.add(toProcess ->
-            imageContainer.setIcon(
-                    new ImageIcon(imageProcessor.toImage(controlPanel.getCurrentEngine().getGameEngine().getPositions().stream()))));
+    controlPanel.add(toProcess -> {
+      Collection<Position> result = controlPanel.getCurrentEngine().getGameEngine().getPositions();
+      if(result != currentPosition) {
+        imageContainer.setIcon(
+                new ImageIcon(imageProcessor.toImage(result.stream())));
+      }
+      currentPosition = result;
+    });
 
     controlPanel.randomizeBoard();
   }

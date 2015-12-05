@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by neilsharpe on 11/28/15.
@@ -88,7 +89,6 @@ public abstract class EngineControlPanel extends JPanel {
   }
 
   private void startAction(){
-    engineProcessor = Executors.newSingleThreadExecutor();
     getGameEngine().start();
     setToStop(startStopButton);
     isRunning.set( true);
@@ -109,6 +109,7 @@ public abstract class EngineControlPanel extends JPanel {
     isRunning.set(false);
 
     engineProcessor.shutdown();
+    engineProcessor = Executors.newSingleThreadExecutor();
   }
 
   private void removeActionListeners(Button button) {
@@ -127,12 +128,9 @@ public abstract class EngineControlPanel extends JPanel {
 
     @Override
     public void process(Collection<Position> toProcess) {
-      controlPanel.engineProcessor.submit(new Runnable() {
-        @Override
-        public void run() {
-          if(!controlPanel.engineProcessor.isShutdown()) {
-            wrapper.process(toProcess);
-          }
+      controlPanel.engineProcessor.submit((Runnable) () -> {
+        if(!controlPanel.engineProcessor.isShutdown()) {
+          wrapper.process(toProcess);
         }
       });
     }
