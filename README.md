@@ -33,3 +33,4 @@ In build.gradle replace the following with your own instance of Open CV 3.0 jar.
 Games are defined via a [Step Rules](src/main/java/org/neil/game/StepRule.java)
 
 A game is multiple iterations of a given step rule.
+
